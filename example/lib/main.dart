@@ -20,9 +20,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void makePayment() async {
-    List<PaymentItem> items = [
-      PaymentItem(name: "T-Shirt", price: 2.98)
-    ];
+    List<PaymentItem> items = [PaymentItem(name: "T-Shirt", price: 2.98)];
 
     flutterPay.setEnvironment(environment: PaymentEnvironment.Test);
 
@@ -31,8 +29,7 @@ class _MyAppState extends State<MyApp> {
         gatewayName: "example",
         gatewayMerchantId: "example_id",
       ),
-      appleParameters:
-          AppleParameters(merchantIdentifier: "merchant.flutterpay.example"),
+      appleParameters: AppleParameters(merchantIdentifier: "merchant.flutterpay.example"),
       currencyCode: "USD",
       countryCode: "US",
       paymentItems: items,
@@ -48,57 +45,54 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Container(
           padding: EdgeInsets.all(12.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  this.result,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                FlatButton(
-                  child: Text("Can make payments?"),
-                  onPressed: () async {
-                    try {
-                      bool result = await flutterPay.canMakePayments();
-                      setState(() {
-                        this.result = "Can make payments: $result";
-                      });
-                    } catch (e) {
-                      setState(() {
-                        this.result = "$e";
-                      });
-                    }
-                  },
-                ),
-                FlatButton(
-                  child: Text("Can make payments with verified card: $result"),
-                  onPressed: () async {
-                    try {
-                      bool result =
-                          await flutterPay.canMakePaymentsWithActiveCard(
-                        allowedPaymentNetworks: [
-                          PaymentNetwork.visa,
-                          PaymentNetwork.masterCard,
-                        ],
-                      );
-                      setState(() {
-                        this.result = "$result";
-                      });
-                    } catch (e) {
-                      setState(() {
-                        this.result = "Error: $e";
-                      });
-                    }
-                  },
-                ),
-                FlatButton(
-                    child: Text("Try to pay?"),
-                    onPressed: () {
-                      makePayment();
-                    })
-              ]),
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              this.result,
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
+            TextButton(
+              child: Text("Can make payments?"),
+              onPressed: () async {
+                try {
+                  bool result = await flutterPay.canMakePayments();
+                  setState(() {
+                    this.result = "Can make payments: $result";
+                  });
+                } catch (e) {
+                  setState(() {
+                    this.result = "$e";
+                  });
+                }
+              },
+            ),
+            TextButton(
+              child: Text("Can make payments with verified card: $result"),
+              onPressed: () async {
+                try {
+                  bool result = await flutterPay.canMakePaymentsWithActiveCard(
+                    allowedPaymentNetworks: [
+                      PaymentNetwork.visa,
+                      PaymentNetwork.masterCard,
+                    ],
+                  );
+                  setState(() {
+                    this.result = "$result";
+                  });
+                } catch (e) {
+                  setState(() {
+                    this.result = "Error: $e";
+                  });
+                }
+              },
+            ),
+            TextButton(
+                child: Text("Try to pay?"),
+                onPressed: () {
+                  makePayment();
+                })
+          ]),
         ),
       ),
     );
